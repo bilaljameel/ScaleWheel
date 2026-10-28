@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.scalewheel.ScaleWheel
@@ -119,6 +120,48 @@ fun Demo(modifier: Modifier = Modifier) {
                 borderColor = Color(0xFF4B5C80),
                 shadowColor = Color(0xFF0A1633),
             ),
+            showMinorLabels = showMinor,
+        )
+        Text("Ruler, gradient outline")
+        ScaleWheel(
+            min = 0,
+            max = 100,
+            defaultValue = 40,
+            style = ScaleWheelStyle.Ruler,
+            colors = ScaleWheelDefaults.rulerColors(
+                borderBrush = Brush.horizontalGradient(listOf(Color(0xFF86C93A), Color(0xFF2AA9E0), Color(0xFFE05CC4))),
+            ),
+            borderWidth = 3.dp,
+            showMinorLabels = showMinor,
+        )
+        Text("Ruler, no outline")
+        ScaleWheel(
+            min = 0,
+            max = 100,
+            defaultValue = 40,
+            style = ScaleWheelStyle.Ruler,
+            showBorder = false,
+            showMinorLabels = showMinor,
+        )
+        Text("Metal, own outline")
+        ScaleWheel(
+            min = 0,
+            max = 100,
+            defaultValue = 40,
+            style = ScaleWheelStyle.Metal,
+            colors = ScaleWheelDefaults.metalColors(
+                borderBrush = Brush.verticalGradient(listOf(Color(0xFFFF8A3D), Color(0xFFB8003C))),
+            ),
+            borderWidth = 4.dp,
+            showMinorLabels = showMinor,
+        )
+        Text("Metal, no outline")
+        ScaleWheel(
+            min = 0,
+            max = 100,
+            defaultValue = 40,
+            style = ScaleWheelStyle.Metal,
+            showBorder = false,
             showMinorLabels = showMinor,
         )
         Text("Custom colors")

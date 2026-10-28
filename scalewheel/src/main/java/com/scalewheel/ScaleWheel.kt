@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
@@ -100,6 +101,10 @@ enum class ScaleWheelOrientation {
  * [ScaleWheelDefaults.metalColors] and [ScaleWheelDefaults.rulerColors]. Defaults to the colors
  * that belong to [style].
  * @param shape shape of the background and border; `null` picks the default of [style].
+ * @param showBorder draw the outline around the wheel; `false` removes it. Its color or gradient
+ * comes from [ScaleWheelColors.borderColor] / [ScaleWheelColors.borderBrush].
+ * @param borderWidth thickness of the outline; unspecified picks the default of [style] (1dp, or 3dp
+ * for [ScaleWheelStyle.Metal]). `0.dp` also removes it.
  * @param showSelectionLine draw the colored line in the center; hidden by default for
  * [ScaleWheelStyle.Metal], where the center highlight marks the selection.
  * @param majorTickInterval a taller, labeled tick is drawn for every value that is a multiple of this.
@@ -126,6 +131,8 @@ fun ScaleWheel(
     style: ScaleWheelStyle = ScaleWheelStyle.Flat,
     colors: ScaleWheelColors = ScaleWheelDefaults.colorsFor(style),
     shape: Shape? = null,
+    showBorder: Boolean = true,
+    borderWidth: Dp = Dp.Unspecified,
     showSelectionLine: Boolean = style != ScaleWheelStyle.Metal,
     majorTickInterval: Int = 10,
     labelFormatter: (Int) -> String = { it.toString() },
@@ -181,14 +188,24 @@ fun ScaleWheel(
     }
     val labelStyle = remember(textStyle) { textStyle.copy(textAlign = TextAlign.Center) }
     val minorLabelStyle = remember(minorTextStyle) { minorTextStyle.copy(textAlign = TextAlign.Center) }
-    val bezel = remember(colors.borderColor, vertical) {
-        stopsBrush(
-            // The bezel shades across the wheel, i.e. perpendicular to the scrolling direction.
-            vertical = !vertical,
-            0f to lerp(colors.borderColor, Color.White, 0.55f),
-            0.5f to colors.borderColor,
-            1f to lerp(colors.borderColor, Color.Black, 0.6f),
-        )
+    val borderBrush = remember(colors.borderColor, colors.borderBrush, vertical, metal) {
+        colors.borderBrush ?: if (metal) {
+            stopsBrush(
+                // The bezel shades across the wheel, i.e. perpendicular to the scrolling direction.
+                vertical = !vertical,
+                0f to lerp(colors.borderColor, Color.White, 0.55f),
+                0.5f to colors.borderColor,
+                1f to lerp(colors.borderColor, Color.Black, 0.6f),
+            )
+        } else {
+            SolidColor(colors.borderColor)
+        }
+    }
+    val strokeWidth = when {
+        !showBorder -> 0.dp
+        borderWidth != Dp.Unspecified -> borderWidth
+        metal -> 3.dp
+        else -> 1.dp
     }
 
     BoxWithConstraints(
@@ -203,15 +220,12 @@ fun ScaleWheel(
             .clip(frameShape)
             .then(
                 if (metal) {
-                    Modifier
-                        .metalSurface(colors.backgroundColor, colors.metalShadowColor, vertical)
-                        .border(3.dp, bezel, frameShape)
+                    Modifier.metalSurface(colors.backgroundColor, colors.metalShadowColor, vertical)
                 } else {
-                    Modifier
-                        .background(colors.backgroundColor)
-                        .border(1.dp, colors.borderColor, frameShape)
+                    Modifier.background(colors.backgroundColor)
                 },
             )
+            .then(if (strokeWidth > 0.dp) Modifier.border(strokeWidth, borderBrush, frameShape) else Modifier)
             .semantics { stateDescription = labelFormatter(min + selectedIndex.value) },
     ) {
         val sidePadding = (((if (vertical) maxHeight else maxWidth) - tickSpacing) / 2).coerceAtLeast(0.dp)

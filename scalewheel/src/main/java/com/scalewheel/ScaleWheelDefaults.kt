@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
@@ -27,6 +28,11 @@ class ScaleWheelColors(
     val selectedMinorTextColor: Color = selectedTextColor,
     /** Color of the dark bands and edges of [ScaleWheelStyle.Metal]; black by default. */
     val metalShadowColor: Color = Color.Black,
+    /**
+     * Gradient (or any brush) for the outline; replaces [borderColor] when set. For
+     * [ScaleWheelStyle.Metal] it replaces the automatic bezel shading.
+     */
+    val borderBrush: Brush? = null,
 )
 
 object ScaleWheelDefaults {
@@ -59,6 +65,7 @@ object ScaleWheelDefaults {
      *
      * @param backgroundColor wheel background.
      * @param borderColor thin outline around the wheel.
+     * @param borderBrush gradient for the outline; replaces [borderColor] when set.
      * @param majorTickColor color of the tall (labeled) ticks.
      * @param minorTickColor color of the short ticks.
      * @param textColor color of the labels.
@@ -79,6 +86,7 @@ object ScaleWheelDefaults {
         selectionLineColor: Color = Color(0xFF7DBB2F),
         minorTextColor: Color = textColor,
         selectedMinorTextColor: Color = selectedTextColor,
+        borderBrush: Brush? = null,
     ): ScaleWheelColors = ScaleWheelColors(
         backgroundColor = backgroundColor,
         borderColor = borderColor,
@@ -89,6 +97,7 @@ object ScaleWheelDefaults {
         selectionLineColor = selectionLineColor,
         minorTextColor = minorTextColor,
         selectedMinorTextColor = selectedMinorTextColor,
+        borderBrush = borderBrush,
     )
 
     /**
@@ -109,6 +118,7 @@ object ScaleWheelDefaults {
         minorTextColor: Color = textColor,
         selectedMinorTextColor: Color = selectedTextColor,
         shadowColor: Color = Color.Black,
+        borderBrush: Brush? = null,
     ): ScaleWheelColors = ScaleWheelColors(
         backgroundColor = backgroundColor,
         borderColor = borderColor,
@@ -120,6 +130,7 @@ object ScaleWheelDefaults {
         minorTextColor = minorTextColor,
         selectedMinorTextColor = selectedMinorTextColor,
         metalShadowColor = shadowColor,
+        borderBrush = borderBrush,
     )
 
     /**
@@ -137,6 +148,7 @@ object ScaleWheelDefaults {
         selectionLineColor: Color = Color(0xFF86C93A),
         minorTextColor: Color = textColor,
         selectedMinorTextColor: Color = selectedTextColor,
+        borderBrush: Brush? = null,
     ): ScaleWheelColors = ScaleWheelColors(
         backgroundColor = backgroundColor,
         borderColor = borderColor,
@@ -147,6 +159,7 @@ object ScaleWheelDefaults {
         selectionLineColor = selectionLineColor,
         minorTextColor = minorTextColor,
         selectedMinorTextColor = selectedMinorTextColor,
+        borderBrush = borderBrush,
     )
 
     /** The default colors that belong to [style]. */

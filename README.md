@@ -1,7 +1,18 @@
 # ScaleWheel
 
-A horizontally scrollable ruler / scale wheel picker for Jetpack Compose.
+[![](https://jitpack.io/v/bilaljameel/ScaleWheel.svg)](https://jitpack.io/#bilaljameel/ScaleWheel)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+A scrollable ruler / scale wheel picker for Jetpack Compose, horizontal or vertical.
 The selection line always stays in the center; the scale scrolls underneath and snaps to the nearest value.
+
+## Preview
+
+<p align="center">
+  <img src="docs/horizontal.png" alt="Horizontal wheels: flat, ruler, metal, gold, blue and custom colors" width="420">
+  &nbsp;&nbsp;
+  <img src="docs/vertical.png" alt="Vertical wheels: flat, ruler and metal" width="360">
+</p>
 
 ## Installation (JitPack)
 
@@ -21,7 +32,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.bilaljameel:ScaleWheel:1.0.0")
+    implementation("com.github.bilaljameel:ScaleWheel:1.1.0")
 }
 ```
 
@@ -122,6 +133,27 @@ colors = ScaleWheelDefaults.metalColors(
 )
 ```
 
+Outline (the stroke around the wheel) can be recolored, given a gradient, made thicker or
+removed:
+
+```kotlin
+// gradient outline
+ScaleWheel(
+    min = 0, max = 100, defaultValue = 40,
+    style = ScaleWheelStyle.Ruler,
+    colors = ScaleWheelDefaults.rulerColors(
+        borderBrush = Brush.horizontalGradient(listOf(Color(0xFF86C93A), Color(0xFF2AA9E0))),
+    ),
+    borderWidth = 3.dp,
+)
+
+// no outline
+ScaleWheel(min = 0, max = 100, defaultValue = 40, showBorder = false)
+```
+
+`borderColor` is the plain color, `borderBrush` (any `Brush`) replaces it when set. For `Metal`,
+`borderBrush` replaces the automatic bezel shading. `showBorder = false` works for every style, `Metal` included.
+
 ## Parameters
 
 | Name | Required | Default | Description |
@@ -135,6 +167,8 @@ colors = ScaleWheelDefaults.metalColors(
 | `orientation` | no | `Horizontal` | `Horizontal` or `Vertical` |
 | `style` | no | `Flat` | `Flat`, `Metal` or `Ruler` (flat light ruler, no shading, all values fully visible) |
 | `shape` | no | depends on style | Shape of background/border |
+| `showBorder` | no | `true` | Draw the outline; `false` removes it |
+| `borderWidth` | no | style default (1dp, Metal 3dp) | Outline thickness; `0.dp` removes it |
 | `showSelectionLine` | no | `true` (`false` for Metal) | Colored line in the center |
 | `wheelEffect` | no | `true` | Curved cylinder look (ticks fade and compress near the edges) |
 | `majorTickInterval` | no | `10` | Tall labeled tick every N values |
