@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.bilaljameel.ScaleWheel:scalewheel:1.0.0")
+    implementation("com.github.bilaljameel:ScaleWheel:1.0.0")
 }
 ```
 
