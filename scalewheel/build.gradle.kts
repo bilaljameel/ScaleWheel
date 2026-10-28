@@ -5,12 +5,12 @@ plugins {
 }
 
 group = "com.github.bilaljameel"
-version = "1.1.0"
+version = "1.1.1"
 
 android {
     namespace = "com.scalewheel"
     compileSdk {
-        version = release(37)
+        version = release(36)
     }
 
     defaultConfig {

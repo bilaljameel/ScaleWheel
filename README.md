@@ -32,9 +32,11 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.bilaljameel:ScaleWheel:1.1.0")
+    implementation("com.github.bilaljameel:ScaleWheel:1.1.1")
 }
 ```
+
+Requires `compileSdk` 36 or higher and `minSdk` 21 or higher.
 
 ## Usage
 
