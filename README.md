@@ -32,7 +32,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.bilaljameel:ScaleWheel:1.1.1")
+    implementation("com.github.bilaljameel:ScaleWheel:1.2.0")
 }
 ```
 
@@ -156,6 +156,12 @@ ScaleWheel(min = 0, max = 100, defaultValue = 40, showBorder = false)
 `borderColor` is the plain color, `borderBrush` (any `Brush`) replaces it when set. For `Metal`,
 `borderBrush` replaces the automatic bezel shading. `showBorder = false` works for every style, `Metal` included.
 
+Tick sound while scrolling (optional, off by default):
+
+```kotlin
+ScaleWheel(min = 0, max = 100, defaultValue = 40, soundEnabled = true)
+```
+
 ## Parameters
 
 | Name | Required | Default | Description |
@@ -181,6 +187,8 @@ ScaleWheel(min = 0, max = 100, defaultValue = 40, showBorder = false)
 | `textStyle` | no | 13sp medium | Label text style |
 | `tickSpacing` | no | `14.dp` | Distance between two values |
 | `hapticFeedback` | no | `true` | Light vibration on each change |
+| `soundEnabled` | no | `false` | Short "tik" sound on each change (device UI-sound volume, silent in silent mode) |
+| `soundVolume` | no | `1f` | Volume of the tick, 0 to 1 |
 
 ## License
 

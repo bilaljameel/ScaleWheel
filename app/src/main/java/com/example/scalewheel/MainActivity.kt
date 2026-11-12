@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
 fun Demo(modifier: Modifier = Modifier) {
     var inches by remember { mutableIntStateOf(69) }
     var showMinor by remember { mutableStateOf(true) }
+    var sound by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -61,8 +62,13 @@ fun Demo(modifier: Modifier = Modifier) {
             Text("Small numbers", modifier = Modifier.weight(1f))
             Switch(checked = showMinor, onCheckedChange = { showMinor = it })
         }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Tick sound", modifier = Modifier.weight(1f))
+            Switch(checked = sound, onCheckedChange = { sound = it })
+        }
         Text("Height: ${inches / 12}'${inches % 12}\"")
         ScaleWheel(
+            soundEnabled = sound,
             min = 48,
             max = 84,
             defaultValue = 69,
@@ -74,6 +80,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Ruler")
         ScaleWheel(
+            soundEnabled = sound,
             min = 36,
             max = 96,
             defaultValue = 68,
@@ -83,9 +90,10 @@ fun Demo(modifier: Modifier = Modifier) {
             tickSpacing = 10.dp,
         )
         Text("Default look (0..100)")
-        ScaleWheel(min = 0, max = 100, defaultValue = 40, showMinorLabels = showMinor)
+        ScaleWheel(min = 0, max = 100, defaultValue = 40, showMinorLabels = showMinor, soundEnabled = sound)
         Text("Metal")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -95,6 +103,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Metal (gold), own small-number colors")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -111,6 +120,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Metal (blue shadow)")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -124,6 +134,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Ruler, gradient outline")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -136,6 +147,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Ruler, no outline")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -145,6 +157,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Metal, own outline")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -157,6 +170,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Metal, no outline")
         ScaleWheel(
+            soundEnabled = sound,
             min = 0,
             max = 100,
             defaultValue = 40,
@@ -166,6 +180,7 @@ fun Demo(modifier: Modifier = Modifier) {
         )
         Text("Custom colors")
         ScaleWheel(
+            soundEnabled = sound,
             min = 30,
             max = 200,
             defaultValue = 70,
@@ -186,6 +201,7 @@ fun Demo(modifier: Modifier = Modifier) {
         Text("Vertical")
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             ScaleWheel(
+                soundEnabled = sound,
                 min = 0,
                 max = 100,
                 defaultValue = 40,
@@ -194,6 +210,7 @@ fun Demo(modifier: Modifier = Modifier) {
                 modifier = Modifier.height(260.dp),
             )
             ScaleWheel(
+                soundEnabled = sound,
                 min = 36,
                 max = 96,
                 defaultValue = 68,
@@ -205,6 +222,7 @@ fun Demo(modifier: Modifier = Modifier) {
                 modifier = Modifier.height(260.dp),
             )
             ScaleWheel(
+                soundEnabled = sound,
                 min = 0,
                 max = 100,
                 defaultValue = 40,
@@ -216,6 +234,7 @@ fun Demo(modifier: Modifier = Modifier) {
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             ScaleWheel(
+                soundEnabled = sound,
                 min = 30,
                 max = 200,
                 defaultValue = 70,

@@ -116,6 +116,9 @@ enum class ScaleWheelOrientation {
  * @param minorTextStyle style of those small labels.
  * @param tickSpacing distance between two consecutive values along the scrolling direction.
  * @param hapticFeedback vibrate lightly each time the selected value changes.
+ * @param soundEnabled play a short "tik" each time the selected value changes. Off by default. It
+ * uses the device's UI-sound volume, so it is silent in silent mode.
+ * @param soundVolume volume of that tick, from 0 to 1.
  * @param wheelEffect curve the scale like a real cylinder: ticks away from the center get
  * closer together, thinner and fainter. Set to `false` for a flat ruler. Off by default for
  * [ScaleWheelStyle.Ruler].
@@ -142,6 +145,8 @@ fun ScaleWheel(
     minorTextStyle: TextStyle = ScaleWheelDefaults.MinorTextStyle,
     tickSpacing: Dp = ScaleWheelDefaults.TickSpacing,
     hapticFeedback: Boolean = true,
+    soundEnabled: Boolean = false,
+    soundVolume: Float = 1f,
     wheelEffect: Boolean = style != ScaleWheelStyle.Ruler,
 ) {
     require(min <= max) { "min ($min) must be <= max ($max)" }
@@ -169,7 +174,8 @@ fun ScaleWheel(
 
     val currentOnValueChange by rememberUpdatedState(onValueChange)
     val haptics = LocalHapticFeedback.current
-    LaunchedEffect(min, count, hapticFeedback) {
+    val tickSound = rememberTickSound(soundEnabled)
+    LaunchedEffect(min, count, hapticFeedback, tickSound, soundVolume) {
         var first = true
         snapshotFlow { selectedIndex.value }
             .distinctUntilChanged()
@@ -178,6 +184,7 @@ fun ScaleWheel(
                     first = false
                 } else {
                     if (hapticFeedback) haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    tickSound?.play(soundVolume)
                     currentOnValueChange(min + index)
                 }
             }
